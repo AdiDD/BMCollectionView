@@ -2856,8 +2856,8 @@ implements BMCollectionViewDelegate, BMCollectionViewDataSet, BMCollectionViewDe
 					let section;
 					
 					if (!(section = sectionIdentifiers[sectionIdentifier])) {
-						section = sectionIdentifiers[sectionIdentifier] = {rows: [], identifier: sectionIdentifier};
 						sectionIndex++;
+						section = sectionIdentifiers[sectionIdentifier] = {rows: [], identifier: sectionIdentifier, index: sectionIndex};
 					}
 					
 					// When using the sortField, the index no longer matches the object's original position within the Infotable
@@ -2868,6 +2868,8 @@ implements BMCollectionViewDelegate, BMCollectionViewDataSet, BMCollectionViewDe
 				}
 				
 				var keys = Object.keys(sectionIdentifiers);
+				// Sort the section keys by their index to retain the original order 
+				keys.sort((k1, k2) => sectionIdentifiers[k1].index - sectionIdentifiers[k2].index);
 				for (var i = 0; i < keys.length; i++) {
 					this.sections.push(sectionIdentifiers[keys[i]]);
 				}
